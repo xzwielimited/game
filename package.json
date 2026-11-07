@@ -1,0 +1,35 @@
+{
+  "name": "naval-warfare-io",
+  "version": "1.0.0",
+  "description": "NavalCommand.io - Clean-Room 2D Top-Down Multiplayer Tactical Naval Combat Web Game",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:web": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "naval",
+    "io-game",
+    "multiplayer",
+    "pixijs",
+    "simulation"
+  ],
+  "author": "NavalCommand Studio",
+  "license": "MIT",
+  "dependencies": {
+    "pixi.js": "^8.5.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.1",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.3"
+  }
+}
