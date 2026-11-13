@@ -1,7 +1,7 @@
 # CONTEXT_DEV: Tóm Tắt Toàn Bộ Bối Cảnh Phát Triển NavalCommand.io
 
-> **Thời điểm cập nhật:** 2026-11-07 17:50:00  
-> **Trạng thái hệ thống:** Hoàn thiện **100% tất cả các Milestones (M1 → M5 & Final Audit)**. Toàn bộ **13/13 bộ kiểm thử tự động (132/132 tests: Unit, Boundary, Adversarial, 10,000-tick Stability, Multi-Client Binary Netcode Integration & Clean-Room Bundle Audit)** đều **PASS 100%**, `tsc --noEmit` đạt **0 lỗi**, bản build WebGL sản phẩm (`dist/`) đạt dung lượng siêu nhẹ **~692 KB (< 0.7 MB, giới hạn yêu cầu < 15 MB)**.
+> **Thời điểm cập nhật:** 2026-11-13 21:20:00  
+> **Trạng thái hệ thống:** Hoàn thiện **100% Milestones M1 → M12**. Toàn bộ **26/26 bộ kiểm thử tự động (314/314 tests)** đều **PASS 100%**, `tsc && vite build` đạt **0 lỗi**, bản build WebGL sản phẩm (`dist/`) gọn nhẹ `< 1 MB` (giới hạn yêu cầu `< 15 MB`). Đã thiết lập đầy đủ môi trường Node.js v22.11.0 + MinGit v2.47.0 portable tại `C:\Users\Administrator\.gemini\tools` và đồng bộ lên GitHub.
 
 ---
 
@@ -45,19 +45,20 @@
 
 ---
 
-## 2. Hướng Dẫn Chạy Kiểm Thử & Trải Nghiệm Trò Chơi
+## 2. Hướng Dẫn Chạy Kiểm Thử & Trải Nghiệm Trò Chơi (Cập nhật M12 — Windows Portable Env)
 
-### Chạy toàn bộ 132 bài kiểm thử tự động:
+### Chạy build và toàn bộ 314 bài kiểm thử tự động (26 files):
 ```powershell
-$env:PATH = "C:\Program Files\nodejs;$env:PATH"
-cd C:\Users\Administrator\Downloads\NavalCommand_SourceCode_20261025
+$env:PATH = "C:\Users\Administrator\.gemini\tools\node;C:\Users\Administrator\.gemini\tools\git\cmd;$env:PATH"
+Set-Location "C:\Users\Administrator\.gemini\antigravity\scratch\game"
+npm run build
 npx vitest run
 ```
 
 ### Khởi chạy Web Client (Vite Dev Server) để chơi ngay trên trình duyệt:
 ```powershell
-$env:PATH = "C:\Program Files\nodejs;$env:PATH"
-cd C:\Users\Administrator\Downloads\NavalCommand_SourceCode_20261025
-npm run dev
+$env:PATH = "C:\Users\Administrator\.gemini\tools\node;C:\Users\Administrator\.gemini\tools\git\cmd;$env:PATH"
+Set-Location "C:\Users\Administrator\.gemini\antigravity\scratch\game"
+npx vite --port 3000 --host
 ```
-*(Truy cập `http://localhost:3000` để điều khiển chiến hạm giao tranh cùng 12 AI Bots thông minh).*
+*(Truy cập `http://localhost:3000` — Xem thêm file `NEXT_SESSION_HANDOFF.md` để nắm toàn bộ tiến trình và roadmap Milestone M13+ cho phiên làm việc tiếp theo).*

@@ -174,3 +174,59 @@ The user just tested the build and gave the following critical requirements that
      * `[4]` Missile / Depth Charge SVG icon (`Tên Lửa / Bom Chìm`)
    - Show visual ammo pips/bars and a glowing border + `"ĐANG CHỌN"` badge on the active weapon slot so the player always knows visually which ammo type is selected.
    - Translate **100% of all remaining English text** in `hud_controller.ts`, `weapon_controls.ts`, `menus.ts`, and `kill_feed.ts` into Vietnamese (`ĐỘ BỀN THÂN TÀU`, `[X] LÁI: CHUỘT`, `[T] ĐỔI TÀU`, `[L] TRANG BỊ`, `[C] SƠN TÀU`, `[Q] LẶN/NỔI`, `[E] TÀNG HÌNH`, `[F] NHIỄU RADAR`, `SẴN SÀNG`, `MẶT NƯỚC`, `KÍNH TIỀM VỌNG`, `LẶN SÂU`, etc.).
+
+---
+
+## Milestone M10: Authentic `mk48.io` Live HUD Synchronization, Fleets, Chat & Progression (Completed)
+
+1. **Zero-Overlap HUD Layout (`client/src/hud/hud_controller.ts`)**:
+   - Repositioned `.tactical-top-bar` to `top: 28px` (`z-index: 85`) with compact styling so the top-center `mk48.io` XP progress bar (`top: 0`, `height: 22px`, `z-index: 100`) is 100% unobstructed.
+2. **Live XP Progress Bar & Automatic Tier Unlocks (`client/src/app.ts`)**:
+   - Implemented `computePlayerXpProgress()` using `SANDBOX_TIER_XP_THRESHOLDS` and `getSandboxTierForXp()`.
+   - Automatically unlocks all vessels in `SHIP_ROSTER` up to the player's current tier (`this.hud.menus.unlockedHulls`) and updates the top-center XP progress bar fill and label in real time.
+3. **Live Sorted Leaderboard & Interactive Fleet System (`client/src/app.ts`)**:
+   - Implemented `getLiveLeaderboard()` sorting all active vessels (player + 12 AI ships) descending by live score with authentic fleet tags (`[USSR]`, `[Ae VN]`, `[やまをと]`, `[Đại Hán]`, `[Yamato]`).
+   - Implemented `joinOrLeaveFleet(targetFleetId)` wiring the `Xin tham gia` / `Rời đội` buttons on the top-left Hạm Đội panel and enforcing the 15-second Non-Aggression Pact (`setFleetNAP(..., 15.0)`) upon leaving a fleet.
+4. **Live Chat Box, Input Focus Guard & Special Slot `[4]` (`client/src/app.ts`)**:
+   - Implemented `sendChatMessage(rawText)` with HTML bracket sanitization, 80-char clamping, and 6-message rolling history.
+   - Added input focus guard in `window.addEventListener('keydown')` so typing in chat or player name input never triggers ship hotkeys (`WASD`, `Space`, `T`, `L`, `C`, `1-4`).
+   - Extended Weapon Slot `[4]` (`selectedWeaponSlot === 3`) to fire `AIRCRAFT_SQUADRON` and `DREDGER_TOOL` mounts in addition to `SAM_MISSILE`, `SSM_MISSILE`, `DEPTH_CHARGE`, and `NAVAL_MINE`.
+   - Wired lobby mode selection cards (`.mode-card-ffa`, `.mode-card-2f`, `.btn-friends-vn`) via `selectLobbyMode()`.
+5. **Verification Suite (`tests/unit/m10_live_hud_interactions.test.ts`)**:
+   - Added 9 comprehensive unit, boundary, and adversarial tests. All **24/24 test suites (300/300 tests)** pass 100%.
+
+---
+
+## Milestone M11: Authentic `mk48.io` Graphics Reconstruction (Completed)
+
+1. **Authentic Multi-Layer Vector Warship Details (`client/src/rendering/vector_hulls.ts`)**:
+   - Upgraded surface warship decks and superstructures: longitudinal teak plank lines (`BATTLESHIP`/`CRUISER`), twin deck lifeboats/RHIBs, windlass capstans, parked swept-wing fighter aircraft & angled landing guides (`AIRCRAFT_CARRIER`), ballast flood vents (`SUBMARINE`), ice-ram bow chevron & hydraulic crane (`DREDGER_ICEBREAKER`), lateral bridge wings, and reflective dark/cyan bridge glass.
+2. **In-Theater 5-Layer Archipelago Islands (`common/models/terrain.ts`, `client/src/app.ts`)**:
+   - Added 4 multi-vertex islands inside `[-1500, +1500]` while preserving legacy test presets `[0..2]`, rendered with 5-layer elevation (shallow turquoise coral reef -> drop shadow -> golden sandy beach + surf rim -> olive forest -> sunlit hill contour).
+3. **Floating XP Crates & Enhanced Projectiles (`server/core/game_server.ts`, `client/src/rendering/pixi_renderer.ts`)**:
+   - Server seeds 24 ambient `XpCrate`s (`WOODEN`, `STEEL`, `MILITARY_CHEST`) and replenishes below 15.
+   - `PixiRenderer.renderCrates()` draws crates with X-straps and pulsing water ripple rings; `renderProjectiles()` adds elongated golden tracer artillery shells and ASW depth charges.
+4. **Responsive Zero-Overlap HUD (`client/src/hud/hud_controller.ts`, `client/src/hud/kill_feed.ts`)**:
+   - Repositioned KillFeed to `top: 235px; right: 16px` below the Leaderboard and added responsive media queries for narrow viewports (`<= 1080px`).
+5. **Verification Suite (`tests/unit/m11_mk48_authentic_graphics.test.ts`)**:
+   - Added 7 unit & boundary tests. Full suite: **25/25 test suites, 307/307 tests PASS**.
+
+---
+
+## Milestone M12: Authentic `mk48.io` Graphics, Bathymetry, 2.5D Ship Paneling, Quick Upgrade Bar & Threat Indicators (Completed — 2026-11-13)
+
+1. **Deep Marine Ocean, Bathymetric Islands & Coastal Trees (`client/src/rendering/pixi_renderer.ts`, `client/src/app.ts`)**:
+   - Updated canvas ocean background to deep marine blue (`0x113a75`), reduced coordinate grid opacity (`0.09`), and added dark wave troughs (`0x0c2c5c`), lit primary swells, dappled wavelets, and white seafoam glints.
+   - Upgraded islands to **7 bathymetric & terrain layers** (3 bathymetric water shelves -> shoreline surf foam ring -> SE underwater drop shadow -> golden-olive sandy beach -> 3-tier olive terrain contours) plus **8 deterministic coastal tree/shrub clusters** per island and **5 procedural Arctic ice floes** in the northern sector.
+2. **Oil Barrels, Crates, Two-Tone Torpedoes, Mines & Wake Foam Trails (`client/src/rendering/pixi_renderer.ts`, `client/src/rendering/wake_fx.ts`)**:
+   - Upgraded `renderCrates()` to draw ribbed cylindrical **Steel Oil Barrels / Drums**, slatted wooden crates, and gold-clasped military chests with dual concentric water ripple rings.
+   - Upgraded `renderProjectiles()` to draw metallic silver/red-warhead torpedoes with 5-node foamy zigzag contrails and warning triangles (`▼`), plus 6-horn contact mines with pulsing red detonator lights.
+   - Upgraded `WakeFX` with centerline turbulent white foam core ribbons and expanding foam bubble clusters.
+3. **2.5D Multi-Shaded Warship Paneling & Torpedo Troughs (`client/src/rendering/vector_hulls.ts`)**:
+   - Added 2-layer soft drop shadows, gunwale rubbing strakes, forward V-breakwaters, transverse hull plating seams, engine room louver vents, twin recessed torpedo troughs with visible red-tipped torpedoes on patrol/destroyer hulls, red/white lifebuoys, mooring bollards, 3D sunlit/shadowed superstructure bevels, and visible red warheads inside torpedo tube muzzles (preserving turret bounding-box invariants).
+4. **Quick Ship Upgrade Bar, Custom Fleet Input, Reload Fill & Threat Warning Triangles (`client/src/app.ts`, `client/src/hud/hud_controller.ts`)**:
+   - Added clickable `.mk48-upgrade-bar` under the top XP bar with top-down SVG ship cards (`getAvailableUpgradeShips`, `selectQuickUpgradeHull`, `getShipTopDownSvg`).
+   - Added editable `.mk48-fleet-name-input` (`createOrJoinCustomFleet`) with XSS/HTML sanitization and 15s Non-Aggression Pact enforcement.
+   - Added real-time weapon reload fill bar (`.mk48-reload-fill`), auto-fading tutorial banner (`.mk48-tutorial-banner`), bottom-right `☰` compact minimal HUD toggle (`toggleCompactMinimalHud`), and 75m ring incoming threat warning triangles (`computeIncomingThreats`, `renderThreatIndicators`).
+5. **Verification Suite (`tests/unit/m12_mk48_shader_hud_overhaul.test.ts`)**:
+   - Added 7 unit & boundary tests. Full verification: `npm run build` (`tsc && vite build`, 0 errors) and `npx vitest run` (**26/26 test files passed, 314/314 tests passed**).
