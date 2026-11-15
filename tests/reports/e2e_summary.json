@@ -1,0 +1,99 @@
+﻿{
+    "timestamp":  "2026-11-15T12:54:58Z",
+    "hostname":  "MAY23",
+    "os":  "Microsoft Windows 10 Pro",
+    "powershell":  "5.1.19041.6575",
+    "total_tests":  6,
+    "passed":  3,
+    "failed":  3,
+    "skipped":  0,
+    "elapsed_seconds":  1.82,
+    "tier_breakdown":  {
+                           "tier1":  {
+                                         "failed":  1,
+                                         "skipped":  0,
+                                         "total":  3,
+                                         "passed":  2
+                                     },
+                           "tier2":  {
+                                         "failed":  1,
+                                         "skipped":  0,
+                                         "total":  2,
+                                         "passed":  1
+                                     },
+                           "tier3":  {
+                                         "failed":  0,
+                                         "skipped":  0,
+                                         "total":  0,
+                                         "passed":  0
+                                     },
+                           "tier4":  {
+                                         "failed":  1,
+                                         "skipped":  0,
+                                         "total":  1,
+                                         "passed":  0
+                                     }
+                       },
+    "results":  [
+                    {
+                        "id":  "T1.3.5",
+                        "tier":  1,
+                        "feature":  "F3_Rebranding",
+                        "name":  "Verify client HUD logo component references new brand identity",
+                        "status":  "FAIL",
+                        "duration_ms":  18,
+                        "error_message":  "client/src/ui/logo.rs does not reference new brand identity \u0027Iron Fleet\u0027",
+                        "stack_trace":  "at Assert-FileContains, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 144\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\suites\\Tier1_FeatureCoverage.ps1: line 177\r\nat Invoke-TestSuite, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 324\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\run_e2e_tests.ps1: line 154"
+                    },
+                    {
+                        "id":  "T1.4.5",
+                        "tier":  1,
+                        "feature":  "F4_LicenseCompliance",
+                        "name":  "Verify author attribution preserved in Cargo manifests and documentation",
+                        "status":  "PASS",
+                        "duration_ms":  5,
+                        "error_message":  null,
+                        "stack_trace":  null
+                    },
+                    {
+                        "id":  "T1.7.3",
+                        "tier":  1,
+                        "feature":  "F7_ServerCompilation",
+                        "name":  "Verify server default constants and configuration parse cleanly",
+                        "status":  "PASS",
+                        "duration_ms":  763,
+                        "error_message":  null,
+                        "stack_trace":  null
+                    },
+                    {
+                        "id":  "T2.2",
+                        "tier":  2,
+                        "feature":  "Boundary_Toolchain",
+                        "name":  "Verify descriptive diagnostic when querying uninstalled target",
+                        "status":  "PASS",
+                        "duration_ms":  235,
+                        "error_message":  null,
+                        "stack_trace":  null
+                    },
+                    {
+                        "id":  "T2.9",
+                        "tier":  2,
+                        "feature":  "Boundary_Server",
+                        "name":  "Verify server cleanly rejects invalid or out-of-range port argument",
+                        "status":  "FAIL",
+                        "duration_ms":  749,
+                        "error_message":  "server.exe produced no output on stderr or stdout when supplied invalid/out-of-range port",
+                        "stack_trace":  "at Assert-True, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 106\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\suites\\Tier2_BoundaryCases.ps1: line 208\r\nat Invoke-TestSuite, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 324\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\run_e2e_tests.ps1: line 154"
+                    },
+                    {
+                        "id":  "T4.4",
+                        "tier":  4,
+                        "feature":  "Scenario_OnboardingRunbook",
+                        "name":  "Scenario 4: Developer onboarding simulation via HANDOFF.md runbook",
+                        "status":  "FAIL",
+                        "duration_ms":  4,
+                        "error_message":  "HANDOFF.md runbook is missing",
+                        "stack_trace":  "at Assert-FileExists, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 126\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\suites\\Tier4_Scenarios.ps1: line 81\r\nat Invoke-TestSuite, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\framework\\TestHarness.ps1: line 324\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\.gemini\\antigravity\\scratch\\naval_combat_rust\\tests\\run_e2e_tests.ps1: line 154"
+                    }
+                ]
+}
