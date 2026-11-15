@@ -1,4 +1,4 @@
-# Mk48.io Server
+# Iron Fleet Server (fork of the mk48 server by Softbear, Inc.)
 
 The server is a Rust application. If compiled in `release` mode, it will embed the (previously compiled) client within itself.
 By contrast, when compiling in `debug` mode, the client is served out of its public directory.

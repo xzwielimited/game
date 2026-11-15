@@ -1,4 +1,4 @@
-GAME_ID = Mk48
+GAME_ID = IronFleet
 
 all: release
 
@@ -6,9 +6,9 @@ include ../makefiles/client.mk
 
 manifest:
 	cargo run --manifest-path ../engine/manifest/Cargo.toml -- \
-		--name mk48.io \
-		--domain mk48.io \
-		--description "Mk48.io is a multiplayer ship combat game. It is free to play online in a web browser with no install required. Start with a small warship and defeat rival players or collect floating barrels to earn upgrades to increasingly larger battleships, submarines, and aircraft carriers. Avoid torpedos and incoming shells. Team and chat with other players." \
+		--name "Iron Fleet" \
+		--domain ironfleet.io \
+		--description "Iron Fleet is an open-source multiplayer ship combat game. It is free to play online in a web browser with no install required. Start with a small warship and defeat rival players or collect floating barrels to earn upgrades to increasingly larger battleships, submarines, and aircraft carriers. Avoid torpedos and incoming shells. Team and chat with other players." \
 		--keywords ship,submarine,torpedo \
 		--background-color "#00487d" \
 		--theme-color "#00487d" \

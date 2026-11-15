@@ -1,5 +1,5 @@
 # Basics
-Mk48.io is a multiplayer naval combat game. You start off a small ship, and consume crates to increase your score (to level up your ship). While a small amount of crates spawn naturally, sinking other ships directly increases your score and spawns many more collectibles.
+Iron Fleet is a multiplayer naval combat game. You start off a small ship, and consume crates to increase your score (to level up your ship). While a small amount of crates spawn naturally, sinking other ships directly increases your score and spawns many more collectibles.
 
 # Movement
 There are four ways to move your ship:
@@ -31,7 +31,7 @@ Once you earn enough points, you can pick an **upgrade** from the top-middle of 
 
 Enemies are more likely to detect larger ships. However, a few ships have a property known as **stealth** to help you evade detection.
 
-Here is a full list of ships: [Mk48.io Ships](/ships/).
+Here is a full list of ships: [Iron Fleet Ships](/ships/).
 
 # Weapons
 There are multiple different types of weapons available on various ships. In general, weapons are fired by clicking in the appropriate direction (although the Space or 'e' keys can also be used).

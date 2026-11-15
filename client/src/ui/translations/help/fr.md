@@ -1,6 +1,6 @@
 # Les Bases
 
-Mk48.io est un jeu de combat naval multijoueur. Vous commencez avec un petit navire et consommez des caisses pour augmenter votre score (pour améliorer votre navire). Même si une petite quantité de caisses apparaît naturellement, couler d'autres navires augmente directement votre score et génère beaucoup plus d'objets de collection. 
+Iron Fleet est un jeu de combat naval multijoueur. Vous commencez avec un petit navire et consommez des caisses pour augmenter votre score (pour améliorer votre navire). Même si une petite quantité de caisses apparaît naturellement, couler d'autres navires augmente directement votre score et génère beaucoup plus d'objets de collection.
 
 # Mouvement
 
@@ -35,7 +35,7 @@ Une fois que vous avez gagné assez de points, vous pouvez choisir une **mise à
 
 Les ennemis sont plus probables de détecter les navires plus gros. Cependant, quelques vaisseaux possèdent une propriété connue sous le nom de **furtivité** pour vous aider à échapper à la détection.
 
-Voici une liste complète des navires: [Mk48.io Ships](/ships/).
+Voici une liste complète des navires: [Iron Fleet Ships](/ships/).
 
 # Armes
 

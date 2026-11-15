@@ -1,5 +1,5 @@
 # Grundlagen
-Mk48.io ist ein Multiplayer Marine Combat Spiel. Du startest als ein kleines Schiff und nimmst Kisten ein, um deinen Punktestand (mit dem dein Level erhöhst) zu erhöhn. Obwohl eine kleine Menge an Kisten natürlich spawnt, bringt das Sinken von anderen Schiffen direkt mehr Punkte und spawnt sehr viele Kisten.
+Iron Fleet ist ein Multiplayer Marine Combat Spiel. Du startest als ein kleines Schiff und nimmst Kisten ein, um deinen Punktestand (mit dem dein Level erhöhst) zu erhöhn. Obwohl eine kleine Menge an Kisten natürlich spawnt, bringt das Sinken von anderen Schiffen direkt mehr Punkte und spawnt sehr viele Kisten.
 
 # Bewegung
 Es gibt vier Wege um sich zu bewegen:
@@ -30,7 +30,7 @@ Sobald du genug Punkte gesammelt hast, kannst du ein **Upgrade** aus der oberen 
 
 Gegner können größere Schiffe einfacher erkennen, jedoch haben ein paar Schiffe eine Tarn-Eigenschaft, welche es schwieriger macht, dich zu sichten.
 
-Hier ist eine Liste der Schiffe: [Mk48.io Schiffe](/ships/)
+Hier ist eine Liste der Schiffe: [Iron Fleet Schiffe](/ships/)
 
 # Waffen
 Es sind mehrere Arten von Waffen in unterschiedlichen Schiffen verfügbar. Normalerweise werden Waffen mit dem klicken in die richtige Richtung abgefeuert (obwohl die Leertaste und die "e"-Taste auch genutzt werden können).

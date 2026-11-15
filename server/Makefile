@@ -1,4 +1,4 @@
-GAME_ID = Mk48
+GAME_ID = IronFleet
 
 all: run_debug
 

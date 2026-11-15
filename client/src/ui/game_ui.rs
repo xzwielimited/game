@@ -37,8 +37,7 @@ pub fn mk48_ui(props: &PropertiesWrapper<UiProps>) -> Html {
     let nexus = ctw.escaping.is_escaping();
     let gctw = use_gctw::<Mk48Game>();
     let splash_social_media_props = SplashSocialMediaProps::default()
-        .github("https://github.com/SoftbearStudios/mk48")
-        .google_play("https://play.google.com/store/apps/details?id=com.softbear.mk48");
+        .github(common::SOURCE_CODE_URL);
     let on_play = gctw.send_ui_event_callback.reform(|alias| UiEvent::Spawn {
         alias,
         entity_type: EntityType::G5,
