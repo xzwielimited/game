@@ -124,6 +124,11 @@ impl TryFrom<Vec2> for SectorId {
 pub struct EntityIndex(SectorId, u16);
 
 impl EntityIndex {
+    #[cfg(test)]
+    pub fn dummy() -> Self {
+        Self(SectorId(0, 0), 0)
+    }
+
     pub fn changed(&self, e: &Entity) -> bool {
         self.0 != e.transform.position.try_into().unwrap()
     }

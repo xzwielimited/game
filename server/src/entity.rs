@@ -667,7 +667,7 @@ impl Eq for Entity {}
 mod tests {
     use crate::entity::Entity;
     use common::entity::{EntityId, EntityType};
-    use glam::Vec2;
+    use kodiak_server::glam::Vec2;
     use std::mem;
 
     #[test]

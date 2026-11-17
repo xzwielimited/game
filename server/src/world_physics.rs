@@ -424,14 +424,13 @@ impl World {
 #[cfg(test)]
 mod tests {
     use crate::entity::Entity;
+    use crate::player::{PlayerTuple, TempPlayer};
     use crate::world::World;
-    use crate::Server;
     use common::entity::{EntityKind, EntityType};
     use common::terrain::Terrain;
     use common::ticks::Ticks;
-    use core_protocol::id::PlayerId;
-    use kodiak_server::{PlayerData, PlayerTuple};
-    use std::num::NonZeroU32;
+    use kodiak_server::PlayerId;
+    use std::num::NonZeroU16;
     use std::sync::Arc;
 
     /// Tests how long each boat takes to recover from (one tick less than) full damage.
@@ -444,12 +443,12 @@ mod tests {
             .filter(|t| t.data().kind == EntityKind::Boat)
             .collect();
 
-        let players: Vec<Arc<PlayerTuple<Server>>> = cases
+        let players: Vec<Arc<PlayerTuple>> = cases
             .iter()
             .enumerate()
             .map(|(i, _)| {
-                Arc::new(PlayerTuple::new(PlayerData::new(
-                    PlayerId(NonZeroU32::new(i as u32 + 1).unwrap()),
+                Arc::new(PlayerTuple::new(TempPlayer::new(
+                    PlayerId(NonZeroU16::new(i as u16 + 1).unwrap()),
                     None,
                 )))
             })
@@ -474,7 +473,6 @@ mod tests {
             for (i, (typ, player)) in cases.iter().zip(players.iter()).enumerate() {
                 if let Some(entity) = player
                     .borrow_player()
-                    .data
                     .status
                     .get_entity_index()
                     .map(|idx| &world.entities[idx])
@@ -500,7 +498,7 @@ mod tests {
             }
 
             world.physics(Ticks::ONE);
-            world.physics_radius(Ticks::ONE);
+            world.physics_radius(Ticks::ONE, &mut |_, _| {});
             world.spawn_statics(Ticks::ONE);
             counter += Ticks::ONE;
         }

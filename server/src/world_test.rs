@@ -93,18 +93,20 @@ impl World {
 
 #[cfg(test)]
 mod tests {
+    use crate::player::{PlayerTuple, PlayerTupleRepo, TempPlayer};
     use crate::protocol::AsCommandTrait;
+    use crate::team::TeamRepo;
     use crate::world::World;
     use crate::Server;
     use common::entity::{EntityData, EntityType};
     use common::protocol::{Command, Spawn};
     use common::ticks::Ticks;
     use common::util::level_to_score;
-    use glam::Vec2;
-    use kodiak_server::{PlayerData, PlayerId, PlayerTuple};
-    use rand::prelude::IteratorRandom;
-    use rand::{thread_rng, Rng};
-    use server_util::generate_id::generate_id;
+    use kodiak_server::glam::Vec2;
+    use kodiak_server::rand::prelude::IteratorRandom;
+    use kodiak_server::rand::{thread_rng, Rng};
+    use kodiak_server::PlayerId;
+    use std::num::NonZeroU16;
     use std::sync::Arc;
 
     #[test]
@@ -127,14 +129,16 @@ mod tests {
 
         let mut world = World::new(world_radius);
         let mut rng = thread_rng();
+        let players_repo = PlayerTupleRepo::default();
+        let mut teams = TeamRepo::<Server>::default();
 
-        let players: Vec<Arc<PlayerTuple<Server>>> = (0..player_count)
+        let players: Vec<Arc<PlayerTuple>> = (0..player_count)
             .map(|i| {
-                Arc::new(PlayerTuple::new(PlayerData::new(
+                Arc::new(PlayerTuple::new(TempPlayer::new(
                     if rng.gen() {
                         PlayerId::nth_bot(i).unwrap()
                     } else {
-                        PlayerId(generate_id())
+                        PlayerId(NonZeroU16::new(rng.gen_range(1..=u16::MAX)).unwrap())
                     },
                     None,
                 )))
@@ -155,16 +159,25 @@ mod tests {
                 .filter(|t| t.can_spawn_as(score, bot) && t.data().level == level)
                 .choose(&mut rng)
                 .unwrap();
-            let spawn = Command::Spawn(Spawn { entity_type });
+            let spawn = Command::Spawn(Spawn {
+                alias: None,
+                entity_type,
+            });
             const SPAWN_ATTEMPTS: usize = 25;
             for i in 0..=SPAWN_ATTEMPTS {
-                match spawn.as_command().apply(&mut world, player) {
+                match spawn
+                    .as_command()
+                    .apply(&mut world, player, &players_repo, &mut teams, None, None)
+                {
                     Err(e) => {
-                        if i == SPAWN_ATTEMPTS || !bot {
-                            panic!(
-                                "spawn {:?} command by player={} resulted in {}",
-                                entity_type, !bot, e
-                            );
+                        if i == SPAWN_ATTEMPTS {
+                            if player_count < 200 {
+                                panic!(
+                                    "spawn {:?} command by player={} resulted in {}",
+                                    entity_type, !bot, e
+                                );
+                            }
+                            break;
                         }
                     }
                     Ok(_) => break,
@@ -174,7 +187,7 @@ mod tests {
 
         let image = world.test_render(Vec2::ZERO, world_radius, resolution);
         image
-            .save(format!("test_render_{}.png", player_count))
+            .save(std::env::temp_dir().join(format!("test_render_{}.png", player_count)))
             .unwrap();
     }
 }

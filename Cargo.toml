@@ -1,0 +1,43 @@
+[workspace]
+members = ["common", "server", "client", "macros", "tools/sprite_sheet_util"]
+resolver = "2"
+
+[patch.crates-io]
+yew-router = { git = "https://github.com/finnbear/yew", package = "yew-router", branch = "dynamic_basename_2_hack_2" }
+
+[patch."https://github.com/softbearstudios/kodiak"]
+kodiak_client = { path = "engine/client" }
+kodiak_common = { path = "engine/common" }
+kodiak_macros = { path = "engine/macros" }
+kodiak_server = { path = "engine/server" }
+plasma_protocol = { path = "engine/plasma_protocol" }
+
+[profile.dev]
+debug = false
+incremental = false
+
+[profile.release]
+debug = true
+
+[profile.release.package."*"]
+debug = false
+
+[profile.test]
+opt-level = 2
+debug = false
+incremental = false
+
+[profile.dev.package.regex]
+opt-level = 3
+[profile.dev.package.png]
+opt-level = 3
+[profile.dev.package.libwebp-sys]
+opt-level = 3
+[profile.dev.package.flate2]
+opt-level = 3
+[profile.dev.package.adler]
+opt-level = 3
+[profile.dev.package.sha2]
+opt-level = 3
+[profile.dev.package.miniz_oxide]
+opt-level = 3

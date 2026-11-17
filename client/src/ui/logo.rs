@@ -9,9 +9,10 @@ pub fn logo() -> Html {
     <svg
         version="1.1"
         id="svg57"
+        aria-label="Iron Fleet"
         viewBox="0 0 843.00003 255.00001"
         xmlns="http://www.w3.org/2000/svg"
-        style="width: 100%"><defs
+        style="width: 100%"><title>{"Iron Fleet"}</title><defs
      id="defs61"><@{"clipPath"}
        clipPathUnits="userSpaceOnUse"
        id="clipPath73"><path

@@ -152,11 +152,12 @@ mod test {
 
     #[test]
     fn test_respawn_score() {
-        assert_eq!(respawn_score(0), 0);
-        assert_eq!(respawn_score(5), 2);
+        assert_eq!(respawn_score(0, None, 0, None), 0);
+        assert_eq!(respawn_score(5, None, 0, None), 5);
+        assert_eq!(respawn_score(100, Some(100), 0, None), 48);
         assert_eq!(
-            respawn_score(100000),
-            level_to_score(EntityData::MAX_BOAT_LEVEL) / 5 * 2
+            respawn_score(100000, None, 0, None),
+            level_to_score(EntityData::MAX_BOAT_LEVEL - 2)
         );
 
         /*
@@ -198,9 +199,10 @@ mod test {
                 let beneficiary = rng.gen_range(0..boats.len());
 
                 let natural = died == beneficiary || rng.gen_bool(0.5);
+                let killer_score = (!natural).then(|| boats[beneficiary].1);
                 let mut winnings = boats[died]
                     .0
-                    .loot(boats[died].1, natural)
+                    .loot(boats[died].1, killer_score)
                     .map(|t| match t {
                         EntityType::Coin => EntityData::COIN_VALUE,
                         _ => 2,
@@ -215,7 +217,7 @@ mod test {
                     }
                 }
 
-                boats[died].1 = respawn_score(boats[died].1);
+                boats[died].1 = respawn_score(boats[died].1, killer_score, winnings, None);
                 boats[beneficiary].1 += winnings;
             }
 

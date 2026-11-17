@@ -152,12 +152,11 @@ mod tests {
     use crate::ticks::Ticks;
     use crate::transform::Transform;
     use crate::velocity::Velocity;
-    use bincode::{DefaultOptions, Options};
     use bitvec::array::BitArray;
     use kodiak_common::glam::vec2;
     use kodiak_common::rand::prelude::*;
     use kodiak_common::PlayerId;
-    use std::num::NonZeroU32;
+    use std::num::NonZeroU16;
 
     #[test]
     fn serialize() {
@@ -180,7 +179,7 @@ mod tests {
                 },
                 EntityId::new(rng.gen_range(1..u32::MAX)).unwrap(),
                 rng.gen_bool(0.5)
-                    .then(|| PlayerId(NonZeroU32::new(rng.gen_range(1..u32::MAX)).unwrap())),
+                    .then(|| PlayerId(NonZeroU16::new(rng.gen_range(1..u16::MAX)).unwrap())),
                 (is_boat && rng.gen_bool(0.5)).then(|| {
                     let mut arr = BitArray::<ReloadsStorage>::ZERO;
                     for (_, mut r) in entity_type
@@ -213,13 +212,9 @@ mod tests {
                 }),
             );
 
-            let options = DefaultOptions::new()
-                .with_fixint_encoding()
-                .allow_trailing_bytes();
+            let bytes = bitcode::encode(&c);
 
-            let bytes = options.serialize(&c).unwrap();
-
-            match options.deserialize::<Contact>(&bytes) {
+            match bitcode::decode::<Contact>(&bytes) {
                 Ok(contact) => {
                     assert_eq!(c, contact)
                 }

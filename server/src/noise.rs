@@ -110,7 +110,9 @@ mod tests {
     use image::{Rgb, RgbImage};
     use kodiak_server::glam::Vec2;
 
+    #[allow(dead_code)]
     type Color = [u8; 3];
+    #[allow(dead_code)]
     const COLORS: [Color; 4] = [
         [0, 50, 115],    // Deep water
         [0, 75, 130],    // Shallow water
@@ -118,11 +120,12 @@ mod tests {
         [90, 180, 30],   // Grass
     ];
 
+    #[allow(dead_code)]
     fn lerp(a: Color, b: Color, x: f32) -> Color {
         [
-            kodiak_common::range::lerp(a[0] as f32, b[0] as f32, x) as u8,
-            kodiak_common::range::lerp(a[1] as f32, b[1] as f32, x) as u8,
-            kodiak_common::range::lerp(a[2] as f32, b[2] as f32, x) as u8,
+            kodiak_server::lerp(a[0] as f32, b[0] as f32, x) as u8,
+            kodiak_server::lerp(a[1] as f32, b[1] as f32, x) as u8,
+            kodiak_server::lerp(a[2] as f32, b[2] as f32, x) as u8,
         ]
     }
 
@@ -165,7 +168,7 @@ mod tests {
         }
 
         image
-            .save(&format!("terrain_test/{}.png", unsafe { SEED }))
+            .save(std::env::temp_dir().join(format!("terrain_test_{}.png", unsafe { SEED })))
             .unwrap();
     }
 }

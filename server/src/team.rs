@@ -652,21 +652,21 @@ fn remove_join(join: TeamId, joins: &mut VecDeque<TeamId>) -> bool {
 
 #[cfg(test)]
 mod test {
-    use crate::game_service::{ArenaService, MockGame};
-    use crate::player::{PlayerTuple, PlayerTupleRepo, TempPlayer};
-    use crate::team::TeamRepo;
-    use core_protocol::id::{PlayerId, TeamId};
-    use core_protocol::name::TeamName;
-    use core_protocol::rpc::{TeamRequest, TeamUpdate};
+    use crate::entities::EntityIndex;
+    use crate::player::{PlayerTuple, PlayerTupleRepo, Status, TempPlayer};
+    use crate::server::Server;
+    use crate::team::{TeamRepo, TEAM_JOINERS_MAX};
+    use common::protocol::{TeamRequest, TeamUpdate};
     use kodiak_server::rand::prelude::IteratorRandom;
     use kodiak_server::rand::{thread_rng, Rng};
-    use server_util::generate_id::generate_id;
+    use kodiak_server::{PlayerId, TeamId, TeamName};
+    use std::num::NonZeroU16;
     use std::sync::Arc;
 
     #[test]
     fn team_repo() {
-        let mut players = PlayerTupleRepo::<MockGame>::default();
-        let mut teams = TeamRepo::<MockGame>::default();
+        let mut players = PlayerTupleRepo::default();
+        let mut teams = TeamRepo::<Server>::default();
 
         let nonexistent_player_id = PlayerId::nth_bot(0).unwrap();
 
@@ -674,11 +674,11 @@ mod test {
 
         for i in 1..50 {
             let existing_player_id = PlayerId::nth_bot(i).unwrap();
-            let existing_player = Arc::new(PlayerTuple::<MockGame>::new(PlayerData::new(
+            let existing_player = Arc::new(PlayerTuple::new(TempPlayer::new(
                 existing_player_id,
                 None,
             )));
-            existing_player.borrow_player_mut().was_alive = true;
+            existing_player.borrow_player_mut().status = Status::new_alive(EntityIndex::dummy());
             players.insert(existing_player_id, Arc::clone(&existing_player));
             existing_players.push((existing_player_id, existing_player));
         }
@@ -733,7 +733,7 @@ mod test {
 
         assert_eq!(teams.teams.len(), 2);
 
-        for i in 20..20 + MockGame::TEAM_JOINERS_MAX {
+        for i in 20..20 + TEAM_JOINERS_MAX {
             let res = teams.handle_team_request(
                 existing_players[i].0,
                 TeamRequest::Join(team1_id),
@@ -767,16 +767,18 @@ mod test {
 
     #[test]
     fn fuzz() {
-        let mut players = PlayerTupleRepo::<MockGame>::default();
-        let mut teams = TeamRepo::<MockGame>::default();
+        let mut players = PlayerTupleRepo::default();
+        let mut teams = TeamRepo::<Server>::default();
 
         let mut existing_players = Vec::new();
 
         for i in 5..75 {
             let existing_player_id = PlayerId::nth_bot(i).unwrap();
-            let mut player_data = PlayerData::new(existing_player_id, None);
-            player_data.was_alive = thread_rng().gen_bool(0.8);
-            let existing_player = Arc::new(PlayerTuple::<MockGame>::new(player_data));
+            let mut player_data = TempPlayer::new(existing_player_id, None);
+            if thread_rng().gen_bool(0.8) {
+                player_data.status = Status::new_alive(EntityIndex::dummy());
+            }
+            let existing_player = Arc::new(PlayerTuple::new(player_data));
             players.insert(existing_player_id, Arc::clone(&existing_player));
             existing_players.push((existing_player_id, existing_player));
         }
@@ -796,7 +798,7 @@ mod test {
                 1 => TeamRequest::Create(*team_names.iter().choose(&mut thread_rng()).unwrap()),
                 2 => {
                     let mut team_ids: Vec<TeamId> = teams.teams.keys().cloned().collect();
-                    team_ids.push(TeamId(generate_id()));
+                    team_ids.push(TeamId(NonZeroU16::new(thread_rng().gen_range(1..=u16::MAX)).unwrap()));
                     TeamRequest::Join(*team_ids.iter().choose(&mut thread_rng()).unwrap())
                 }
                 3 => TeamRequest::Accept(rand_player_id_1),
